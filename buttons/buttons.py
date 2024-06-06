@@ -17,10 +17,10 @@ def many(language):
     return button
 
 
-def lan_btn():
+def lan_btn(language):
     russian = KeyboardButton(text='Русский 🇷🇺')
     uzbek = KeyboardButton(text='Узбекский 🇺🇿')
-    back = KeyboardButton(text=get_translation('back', 'ru'))
+    back = KeyboardButton(text=get_translation('back', language))
 
     button = ReplyKeyboardMarkup(
         keyboard=[[russian, uzbek, back]],
@@ -30,8 +30,8 @@ def lan_btn():
     return button
 
 
-def phone_btn():
-    send_nummer = KeyboardButton(text=get_translation('send_phone', 'ru'), request_contact=True)
+def phone_btn(language):
+    send_nummer = KeyboardButton(text=get_translation('send_phone', language), request_contact=True)
 
     button = ReplyKeyboardMarkup(
         keyboard=[[send_nummer]],
@@ -41,12 +41,11 @@ def phone_btn():
     return button
 
 
-def location_btn():
-    send_location = KeyboardButton(text=get_translation('send_location', 'ru'), request_location=True)
+def location_btn(language):
+    send_location = KeyboardButton(text=get_translation('send_location', language), request_location=True)
     button = ReplyKeyboardMarkup(
         keyboard=[[send_location]],
         resize_keyboard=True,
         one_time_keyboard=True
-
     )
     return button

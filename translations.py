@@ -14,6 +14,8 @@ translations = {
         'back': 'Назад',
         'send_phone': 'Отправить мой номер',
         'send_location': 'Отправить мою локацию',
+        'support': 'Вы можете связаться с администратором. Пожалуйста, опишите вашу проблему сюда - @secdeee1',
+        'buy': "Здесь вы можете купить наши продукты!"
     },
     'uz': {
         'choose_option': 'Quyidagi variantlardan birini tanlang!\n\n\n',
@@ -30,6 +32,7 @@ translations = {
         'back': 'Ortga',
         'send_phone': 'Telefon raqamimni yuborish',
         'send_location': 'Mening joylashuvimni yuborish',
+        'support': 'Siz administratorga murojaat qilishingiz mumkin. Muammoingizni shu yerda tasvirlab bering - @secdeee1',
     }
 }
 

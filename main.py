@@ -6,7 +6,7 @@ import logging
 from dotenv import load_dotenv
 from aiogram import Dispatcher, types, Bot, F
 from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from aiogram.client.default import DefaultBotProperties
 from buttons.buttons import many, lan_btn, phone_btn, location_btn
 from translations import get_translation
@@ -33,7 +33,20 @@ async def welcome(message: types.Message) -> None:
     user_languages[user_id] = 'ru'
     user_states[user_id] = STATE_WAITING_FOR_PHONE
     await message.answer(get_translation('send_phone_prompt', user_languages[user_id]),
-                         reply_markup=phone_btn())
+                         reply_markup=phone_btn(user_languages[user_id]))
+
+
+@dp.message(Command(commands=['support']))
+async def support(message: types.Message):
+    user_id = message.from_user.id
+    user_language = user_languages.get(user_id, 'ru')
+    await message.answer(get_translation('support', user_language))
+
+
+@dp.message(Command(commands=['buy']))
+async def buy(message: types.Message):
+    user_id = message.from_user.id
+    await message.answer(get_translation('buy'), reply_markup=many(user_languages.get(user_id, 'ru')))
 
 
 @dp.message(lambda message: message.content_type == types.ContentType.CONTACT)
@@ -45,7 +58,7 @@ async def process_phone(message: types.Message):
 
     user_states[user_id] = STATE_WAITING_FOR_LOCATION
     await message.answer(get_translation('send_location_prompt', user_languages[user_id]),
-                         reply_markup=location_btn())
+                         reply_markup=location_btn(user_languages[user_id]))
 
 
 @dp.message(lambda message: message.content_type == types.ContentType.LOCATION)
@@ -70,7 +83,6 @@ async def text(message: types.Message) -> None:
         return
 
     text = message.text.lower()
-
     if text in ['язык(ru/uz)', 'til(ru/uz)']:
         await message.answer(get_translation('choose_language', user_languages[user_id]),
                              reply_markup=lan_btn(user_languages[user_id]))
