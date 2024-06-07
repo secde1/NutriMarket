@@ -73,15 +73,30 @@ async def process_phone(message: types.Message):
                          reply_markup=location_btn(user_languages[user_id]))
 
 
+def get_street_name(latitude, longitude):
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.reverse(f"{latitude}, {longitude}", exactly_one=True)
+    address = location.raw['address']
+    street = address.get('road', 'неизвестная улица')
+    city = address.get('city', 'неизвестная город')
+    return street, city
+
+
 @dp.message(lambda message: message.content_type == types.ContentType.LOCATION)
 async def process_location(message: types.Message):
     user_id = message.from_user.id
     location = message.location
+    street_name = get_street_name(location.latitude, location.longitude)
+
     await message.answer(get_translation('location_received', user_languages[user_id]).format(
         location.latitude, location.longitude))
 
+    # Отправляем название улицы
+    await message.answer(get_translation('street_name', user_languages[user_id]).format(
+        street_name))
+
     user_states[user_id] = STATE_MAIN_MENU
-    await message.answer(get_translation('choose_option', user_languages[user_id]),
+    await message.answer(get_translation('choose_option_location', user_languages[user_id]),
                          reply_markup=many(user_languages[user_id]))
 
 
