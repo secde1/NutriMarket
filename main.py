@@ -3,12 +3,14 @@ import sys
 import asyncio
 import logging
 
+from aiogram.types import FSInputFile
 from dotenv import load_dotenv
 from aiogram import Dispatcher, types, Bot, F
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.client.default import DefaultBotProperties
-from buttons.buttons import many, lan_btn, phone_btn, location_btn
+from aiogram.methods.send_photo import SendPhoto
+from buttons.buttons import many, lan_btn, phone_btn, location_btn, buy_btn
 from translations import get_translation
 
 load_dotenv()
@@ -46,7 +48,16 @@ async def support(message: types.Message):
 @dp.message(Command(commands=['buy']))
 async def buy(message: types.Message):
     user_id = message.from_user.id
-    await message.answer(get_translation('buy'), reply_markup=many(user_languages.get(user_id, 'ru')))
+    user_language = user_languages.get(user_id, 'ru')
+
+    photo_path = FSInputFile("media/photo_2024-06-07_16-00-56.jpg")
+    order_markup = buy_btn(user_language)
+    await bot.send_photo(
+        chat_id=user_id,
+        photo=photo_path,
+        caption=get_translation('buy', user_language),
+        reply_markup=order_markup
+    )
 
 
 @dp.message(lambda message: message.content_type == types.ContentType.CONTACT)

@@ -33,6 +33,7 @@ translations = {
         'send_phone': 'Telefon raqamimni yuborish',
         'send_location': 'Mening joylashuvimni yuborish',
         'support': 'Siz administratorga murojaat qilishingiz mumkin. Muammoingizni shu yerda tasvirlab bering - @secdeee1',
+        'buy': "Bu yerda siz bizning mahsulotlarimizni xarid qilishingiz mumkin!"
     }
 }
 

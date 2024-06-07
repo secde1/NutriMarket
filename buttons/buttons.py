@@ -1,5 +1,5 @@
 from aiogram.types.web_app_info import WebAppInfo
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from translations import get_translation
 
 
@@ -49,3 +49,14 @@ def location_btn(language):
         one_time_keyboard=True
     )
     return button
+
+
+def buy_btn(language):
+    order_text = get_translation('buy', language)
+    order_button = InlineKeyboardButton(
+        text=order_text,
+        web_app=WebAppInfo(url='https://nutri-market.vercel.app/')
+    )
+    keyboard = [[order_button]]
+    markup = InlineKeyboardMarkup(inline_keyboard=keyboard)
+    return markup
