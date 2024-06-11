@@ -5,13 +5,12 @@ import logging
 
 from dotenv import load_dotenv
 from aiogram.enums import ParseMode
-from geopy.geocoders import Nominatim
 from aiogram.types import FSInputFile
 from aiogram import Dispatcher, types, Bot, F
 from aiogram.filters import CommandStart, Command
 from aiogram.client.default import DefaultBotProperties
 
-from buttons.buttons import many, lan_btn, phone_btn, location_btn, buy_btn
+from buttons.buttons import many, lan_btn, phone_btn, location_btn, buy_btn, confirmation_btn
 from translations import get_translation
 
 load_dotenv()
@@ -73,31 +72,28 @@ async def process_phone(message: types.Message):
                          reply_markup=location_btn(user_languages[user_id]))
 
 
-def get_street_name(latitude, longitude):
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.reverse(f"{latitude}, {longitude}", exactly_one=True)
-    address = location.raw['address']
-    street = address.get('road', 'неизвестная улица')
-    city = address.get('city', 'неизвестная город')
-    return street, city
-
-
 @dp.message(lambda message: message.content_type == types.ContentType.LOCATION)
 async def process_location(message: types.Message):
     user_id = message.from_user.id
-    location = message.location
-    street_name = get_street_name(location.latitude, location.longitude)
+    user_language = user_languages.get(user_id, 'ru')
+    await message.answer(get_translation('location_received', user_language),
+                         reply_markup=confirmation_btn(user_language))
+    user_states[user_id] = STATE_WAITING_FOR_LOCATION
 
-    await message.answer(get_translation('location_received', user_languages[user_id]).format(
-        location.latitude, location.longitude))
 
-    # Отправляем название улицы
-    await message.answer(get_translation('street_name', user_languages[user_id]).format(
-        street_name))
-
-    user_states[user_id] = STATE_MAIN_MENU
-    await message.answer(get_translation('choose_option_location', user_languages[user_id]),
-                         reply_markup=many(user_languages[user_id]))
+@dp.message(lambda message: message.text.lower() in ["да", "нет"])
+async def handle_confirmation(message: types.Message):
+    user_id = message.from_user.id
+    if user_states.get(user_id) == STATE_WAITING_FOR_LOCATION:
+        if message.text.lower() == "да":
+            # Если пользователь подтвердил правильность локации, переходим к следующему этапу
+            user_states[user_id] = STATE_MAIN_MENU
+            await message.answer(get_translation('choose_option_location', user_languages[user_id]),
+                                 reply_markup=many(user_languages[user_id]))
+        elif message.text.lower() == "нет":
+            # Если пользователь указал, что локация неправильная, повторяем запрос на отправку локации
+            await message.answer(get_translation('send_location_prompt', user_languages[user_id]),
+                                 reply_markup=location_btn(user_languages[user_id]))
 
 
 @dp.message(F.content_type == types.ContentType.TEXT)

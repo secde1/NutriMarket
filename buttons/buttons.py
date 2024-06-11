@@ -60,3 +60,14 @@ def buy_btn(language):
     keyboard = [[order_button]]
     markup = InlineKeyboardMarkup(inline_keyboard=keyboard)
     return markup
+
+
+def confirmation_btn(language):
+    yes = KeyboardButton(text=get_translation('yes', language))
+    no = KeyboardButton(text=get_translation('no', language))
+    button = ReplyKeyboardMarkup(
+        keyboard=[[yes, no]],
+        resize_keyboard=True,
+        one_time_keyboard=True
+    )
+    return button

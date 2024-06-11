@@ -10,14 +10,15 @@ translations = {
         'send_phone_prompt': 'Привет! Нажмите на кнопку ниже, чтобы отправить свой номер телефона.',
         'phone_received': 'Спасибо за предоставленный номер телефона ({0}). ',
         'send_location_prompt': 'Теперь нажмите на кнопку ниже, чтобы отправить свою локацию.',
-        'location_received': 'Локация получена: ({}, {})',
-        'street_name': 'Название улицы: {}',
+        'location_received': 'Правильно ли у вас указана локация?',
         'choose_option_location': 'Пожалуйста, выберите опцию:',
         'back': 'Назад',
         'send_phone': 'Отправить мой номер',
         'send_location': 'Отправить мою локацию',
         'support': 'Вы можете связаться с администратором. Пожалуйста, опишите вашу проблему сюда - @secdeee1',
-        'buy': "Здесь вы можете купить наши продукты!"
+        'buy': "Здесь вы можете купить наши продукты!",
+        'yes': 'Да',
+        'no': 'Нет'
     },
     'uz': {
         'choose_option': 'Quyidagi variantlardan birini tanlang!\n\n\n',
@@ -30,14 +31,15 @@ translations = {
         'send_phone_prompt': 'Salom! Telefon raqamingizni yuborish uchun quyidagi tugmani bosing.',
         'phone_received': 'Berilgan telefon raqamingiz uchun rahmat ({0}).',
         'send_location_prompt': 'Endi joylashuvingizni yuborish uchun quyidagi tugmani bosing.',
-        'location_received': 'Локация получена: ({}, {})',
-        'street_name': 'Название улицы: {}',
-        'choose_option_location': 'Пожалуйста, выберите опцию:',
+        'location_received': 'Rostdan ham joylashuvingiz to‘g‘rimi?',
+        'choose_option_location': 'Iltimos, variantni tanlang:',
         'back': 'Ortga',
         'send_phone': 'Telefon raqamimni yuborish',
         'send_location': 'Mening joylashuvimni yuborish',
         'support': 'Siz administratorga murojaat qilishingiz mumkin. Muammoingizni shu yerda tasvirlab bering - @secdeee1',
-        'buy': "Bu yerda siz bizning mahsulotlarimizni xarid qilishingiz mumkin!"
+        'buy': "Bu yerda siz bizning mahsulotlarimizni xarid qilishingiz mumkin!",
+        'yes': 'Ha',
+        'no': 'Yo‘q'
     }
 }
 
